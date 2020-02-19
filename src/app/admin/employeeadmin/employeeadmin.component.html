@@ -1,0 +1,209 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="row">
+    <div class="col-sm-6 col-xs-12">
+      <h1 class="m-n font-thin h3">Employee</h1>
+    </div>
+    <div class="col-sm-6 text-right hidden-xs">
+      <div class="inline m-r text-left">
+        <div class="m-b-xs">
+          <button class="btn btn-primary btn-addon btn-sm" (click)="addemployeereactiveform()" data-toggle="modal" data-target="#addemployee">
+            <i class="fa fa-plus"></i>Add Employee</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="wrapper-md">
+  <div class="panel panel-default">
+    <!-- <div  class="panel-heading font-bold">
+            Leave History
+          </div> -->
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-sm-4 hidden-xs">
+          <div class="form-group">
+            <label>Search</label>
+            <input class="form-control" id="empsearch" type="text" placeholder="search Name" (keyup)="searchtable(txtFname.value)" #txtFname>
+          </div>
+        </div>
+        <div class="col-sm-4">
+
+        </div>
+
+      </div>
+      <table class="table table-striped m-b-none" id="emptable">
+        <thead>
+          <tr>
+            <th data-breakpoints="xs">Name</th>
+            <th>Mobile</th>
+            <th>Employee ID</th>
+            <th>Email</th>
+            <!-- <th data-breakpoints="xs sm md" data-title="DOB">No. of questions</th> -->
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor='let viewEmployeesdata of viewEmployeesdata | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage };let index = index;' style="cursor:pointer;">
+                <td (click)="setempprofileid(viewEmployeesdata.userid)" >{{viewEmployeesdata.name}}</td>
+                <td (click)="setempprofileid(viewEmployeesdata.userid)">{{viewEmployeesdata.mobile}}</td>
+                <td (click)="setempprofileid(viewEmployeesdata.userid)">{{viewEmployeesdata.employeeid}}</td>
+                <td (click)="setempprofileid(viewEmployeesdata.userid)">{{viewEmployeesdata.email}}</td>
+              </tr>
+        </tbody>
+      </table>
+      <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+     </div>
+  </div>
+</div>
+<!-- apply leave -->
+<div id="addemployee" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- <form [formGroup]="examForm" (ngSubmit)="onFormSubmit()"> -->
+    <form [formGroup]="addemployeeForm">
+      Modal content
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" >&times;</button>
+          <h4 class="modal-title">Add Employee </h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="panel panel-default">
+                <div class="panel-body">
+
+                  <div class="row">
+                    <div class=" col-md-6">
+                      <div class="form-group">
+                        <label>Employee ID</label>
+                        <input type="text" class="form-control" placeholder="Employee ID" formControlName="employeeid">
+                        <small *ngIf="!addemployeeForm.controls['employeeid'].valid && addemployeeForm.controls['employeeid'].touched" style="color:red;">Enter valid Employee ID</small>
+                      </div>
+                      <div class="form-group">
+                        <label>Date of birth</label>
+                        <input formControlName="dateofbirth" type='text' class="form-control" id='dateofbirth' placeholder="Date of birth"  />
+                        <small *ngIf="!addemployeeForm.controls['dateofbirth'].valid && addemployeeForm.controls['dateofbirth'].touched" style="color:red;">Select Date of Birth</small>
+                      </div>
+                      <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" class="form-control" placeholder="Email" formControlName="email">
+                        <small *ngIf="!addemployeeForm.controls['email'].valid && addemployeeForm.controls['email'].touched" style="color:red;">Enter valid Email</small>
+                      </div>
+                      <div class="form-group">
+                        <label>Designation</label>
+                        <input type="text" class="form-control" placeholder="Designation" formControlName="designation">
+                        <small *ngIf="!addemployeeForm.controls['designation'].valid && addemployeeForm.controls['designation'].touched" style="color:red;">Enter valid designation</small>
+                      </div>
+                    </div>
+                    <div class=" col-md-6">
+                      <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" placeholder="Name" formControlName="name">
+                        <small *ngIf="!addemployeeForm.controls['name'].valid && addemployeeForm.controls['name'].touched" style="color:red;">Enter valid Name</small>
+                      </div>
+                      <div class="form-group">
+                        <label>Joining Date</label>
+                        <input  type='text' class="form-control" id='dateofjoining' placeholder="Joining date" formControlName="joindate" />
+                        <small *ngIf="!addemployeeForm.controls['joindate'].valid && addemployeeForm.controls['joindate'].touched" style="color:red;">Select Joining Date</small>
+                      </div>
+                      <div class="form-group">
+                        <label>Mobile</label>
+                        <input type="text" class="form-control" placeholder="Mobile" formControlName="mobile">
+                        <small *ngIf="!addemployeeForm.controls['mobile'].valid && addemployeeForm.controls['mobile'].touched" style="color:red;">Enter valid Mobile Number </small>
+                      </div>
+                      <div class="form-group">
+                        <label>Gender</label>
+                        <select class="form-control" formControlName="gender">
+                          <option>Male</option>
+                          <option>Female</option>
+                        </select>
+                        <small *ngIf="!addemployeeForm.controls['gender'].valid && addemployeeForm.controls['gender'].touched" style="color:red;">Select Gender</small>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>RM Name</label>
+                        <!-- <input type="text" class="form-control" placeholder="RM Name" formControlName="rmdetails"> -->
+                        <ng-select [searchable]="true" class="form-control" formControlName="rmdetails">
+                          <ng-container *ngFor="let viewEmployeesdata of viewEmployeesdata">
+                            <ng-option [value]="viewEmployeesdata.email+'|'+viewEmployeesdata.userid">{{viewEmployeesdata.name}}</ng-option>
+                          </ng-container>
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <!-- {{addemployeeForm.value | json}} -->
+          <!-- <button type="submit" class="btn btn-sm btn-primary" [disabled]="!examForm.valid">Submit</button> -->
+          <button type="submit" class="btn btn-sm btn-primary" [disabled]="addemployeeForm.invalid" (click)="addemployee();">Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Add Exam -->
+<!-- <div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <form [formGroup]="examForm" (ngSubmit)="onFormSubmit()">
+        Modal content
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" (click)="onFormReset();">&times;</button>
+            <h4 class="modal-title">Add New Exam</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                    <div class="form-group">
+                      <label>Exam Name</label>
+                      <input type="text" class="form-control" placeholder="Enter Exam Name" formControlName="subcatname" maxlength="25">
+                      <small *ngIf="!examForm.controls['subcatname'].valid && examForm.controls['subcatname'].touched" style="color:red;"> Enter Exam count (min 3 & max 25 characters )</small>
+                    </div>
+                    <div class="form-group">
+                      <label>Select Category</label>
+                      <select name="category" class="form-control" formControlName="categoryid" [ngClass]="{
+                        'has-danger': examForm.controls.categoryid.invalid &&    examForm.controls.categoryid.touched, 
+                        'has-success': examForm.controls.categoryid.valid && examForm.controls.categoryid.touched 
+                      }">
+                        <ng-container *ngFor="let getcategories of getcategorydata;">
+                          <option value="{{getcategories._id}}">{{getcategories.name}}</option>
+                        </ng-container>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Select Duration</label>
+                      <select name="category" class="form-control" formControlName="duration" [ngClass]="{
+                        'has-danger': examForm.controls.duration.invalid &&    examForm.controls.duration.touched, 
+                        'has-success': examForm.controls.duration.valid && examForm.controls.duration.touched 
+                      }">
+                        <option value="0.30">30 Minutes</option>
+                        <option value="1.00">1 Hour</option>
+                        <option value="1.30">1 Hour 30 Minutes</option>
+                        <option value="2.00">2 Hours</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>No. Of Questions</label>
+                      <input type="number" class="form-control" placeholder="No. Of Questions" formControlName="size">
+                      <small *ngIf="!examForm.controls['size'].valid && examForm.controls['size'].touched" style="color:red;">No. Of Questions should be Number </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-sm btn-primary" [disabled]="!examForm.valid">Submit</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="onFormReset();">Close</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div> -->

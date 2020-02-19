@@ -1,0 +1,12 @@
+.checkintime{
+    font-size: 45px !important;
+}
+.progress{
+    margin-bottom:5px !important; 
+}
+.remainingtime{
+    border-right:1px solid #f0f3f4;
+}
+.input-group-btn .btn{
+    margin-top: 25px !important;
+}

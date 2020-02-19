@@ -1,0 +1,418 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="row">
+    <div class="col-sm-6 col-xs-12">
+      <h1 class="m-n font-thin h3">Configuration</h1>
+    </div>
+    <div class="col-sm-6 text-right hidden-xs">
+      <div class="inline m-r text-left">
+        <div class="m-b-xs">
+          <button class="btn btn-primary btn-addon btn-sm" data-toggle="modal" data-target="#addholiday" (click)="addleavereactiveform()">
+            <i class="fa fa-plus"></i>Add Holiday</button>
+          <button class="btn btn-secondary btn-addon btn-sm" data-toggle="modal" data-target="#addofficehrs" (click)="addofficehourseactiveform()">
+            <i class="fa fa-plus"></i>Add Office Hours</button>
+          <button class="btn btn-primary btn-addon btn-sm" data-toggle="modal" data-target="#changepass" (click)="changepassreactiveform()">
+            <i class="fa fa-pencil"></i>Change Password</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="wrapper-md">
+  <div class="panel panel-default">
+    <!-- <div  class="panel-heading font-bold">
+            Leave History
+          </div> -->
+    <div class="panel-heading font-bold">
+      Leave Details
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-sm-4 hidden-xs">
+          <div class="form-group">
+            <label>Search</label>
+            <input type='text' class="form-control" id='leavesearch' placeholder="Search Month" />
+
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+
+            <button class="btn btn-primary searchbtn" type="button" (click)="monthlyholiday('search')">Search</button>
+          </div>
+        </div>
+
+      </div>
+      <table class="table table-striped m-b-none">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Reason</th>
+            <th>Government / Company Holiday</th>
+            <th></th>
+            <!-- <th data-breakpoints="xs sm md" data-title="DOB">No. of questions</th> -->
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr *ngFor="let monthlyholidaydata of monthlyholidaydata | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, id:'one'}">
+            <td>{{monthlyholidaydata.leavedate | date: 'dd/MM/yyyy'}}</td>
+            <td>{{monthlyholidaydata.reason}}</td>
+            <td>{{monthlyholidaydata.holidaytype}}</td>
+            <td>
+              <button class="btn btn-primary btn-addon btn-sm" data-toggle="modal" data-target="#deleteholiday" data-backdrop="static"
+                (click)="setleaveid(monthlyholidaydata._id)">
+                <i class="fa fa-trash"></i>Delete</button>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+      <pagination-controls (pageChange)="currentPage = $event" id="one"></pagination-controls>
+
+    </div>
+  </div>
+</div>
+<!-- add holiday -->
+<div id="addholiday" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- <form [formGroup]="examForm" (ngSubmit)="onFormSubmit()"> -->
+    <form [formGroup]="addleaveForm">
+      Modal content
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add Holiday</h4>
+        </div>
+        <div class="modal-body">
+          <div class="panel panel-default">
+            <!-- <div  class="panel-heading font-bold">
+                        Leave History
+                      </div> -->
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Date</label>
+                        <input formControlName="holidaydate" type='text' class="form-control" id='addholidaydate' placeholder="Date" />
+                      </div>
+
+                      <div class="form-group">
+                        <label>Holiday Type</label>
+                        <select class="form-control" formControlName="holidaytype">
+                          <option>Government Holiday</option>
+                          <option>Company Holiday</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <label>Reason</label>
+                        <input class="form-control" type="text" placeholder="Reason" formControlName="reason">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <!-- {{addleaveForm.value | json}} -->
+          <!-- <button type="submit" class="btn btn-sm btn-primary" [disabled]="!examForm.valid">Submit</button> -->
+          <button type="submit" class="btn btn-sm btn-primary" [disabled]="addleaveForm.invalid" (click)="addholiday()">Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- delete holiday -->
+<div id="deleteholiday" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- <form [formGroup]="examForm" (ngSubmit)="onFormSubmit()"> -->
+    <form [formGroup]="addofficehoursForm">
+      Modal content
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Delete Holiday</h4>
+        </div>
+        <div class="modal-body">
+          <div class="panel panel-default">
+            <!-- <div  class="panel-heading font-bold">
+                        Leave History
+                      </div> -->
+            <div class="panel-body">
+              Are you sure you want to delete this holiday?
+
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="submit" class="btn btn-sm btn-primary" [disabled]="!examForm.valid">Submit</button> -->
+          <button type="submit" class="btn btn-sm btn-primary" (click)="deleteholiday()">Ok</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- add office -->
+<div id="addofficehrs" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- <form  (ngSubmit)="onFormSubmit()"> -->
+    <form [formGroup]="addofficehoursForm">
+      Modal content
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add Office Hours and Week off </h4>
+        </div>
+        <div class="modal-body">
+          <div class="panel panel-default">
+            <!-- <div  class="panel-heading font-bold">
+                        Leave History
+                      </div> -->
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-12">
+
+                      <div class="form-group">
+                        <label>Working hours per day</label>
+                        <select class="form-control " formControlName="hours">
+                          <option value="06:00">06</option>
+                          <option value="07:00">07</option>
+                          <option value="08:00">08</option>
+                          <option value="09:00">09</option>
+                          <option value="10:00">10</option>
+                          <option value="11:00">11</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <label>Total Break hours per day</label>
+                        <select class="form-control " formControlName="breakperday">
+                          <option value="00:30">30 mins</option>
+                          <option value="00:45">45 mins</option>
+                          <option value="01:00">60 mins</option>
+                          <option value="01:15">75 mins</option>
+                          <option value="01:30">90 mins</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label>Select weekoff days</label>
+                        <ng-select class="form-control" [multiple]="true" formControlName="weekoff">
+                          <ng-option value="1">Monday</ng-option>
+                          <ng-option value="2">Tuesday</ng-option>
+                          <ng-option value="3">Wednesday</ng-option>
+                          <ng-option value="4">Thursday</ng-option>
+                          <ng-option value="5">Friday</ng-option>
+                          <ng-option value="6">Saturday</ng-option>
+                          <ng-option value="7">Sunday</ng-option>
+                        </ng-select>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <!-- {{addofficehoursForm.value | json}} -->
+          <!-- <button type="submit" class="btn btn-sm btn-primary" [disabled]="!examForm.valid">Submit</button> -->
+          <button type="submit" class="btn btn-sm btn-primary" [disabled]="addofficehoursForm.invalid" (click)="addofficehours()">Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Change Password -->
+<div id="changepass" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- <form [formGroup]="examForm" (ngSubmit)="onFormSubmit()"> -->
+    <form [formGroup]="changepassprofileForm">
+      Modal content
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Change Password</h4>
+        </div>
+        <div class="modal-body">
+          <div class="panel panel-default">
+            <!-- <div  class="panel-heading font-bold">
+                          Leave History
+                        </div> -->
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="input-group">
+                        <label>Current Password</label>
+                        <input class="form-control " type="{{oldtype}}" placeholder="Current Password" formControlName="oldpassword">
+                       
+
+                        <div class="input-group-btn">
+                          <button class="btn btn-default" (click)="toggleold()">
+                            <i [ngClass]="eyetypeold" [ngStyle]="{'color': oldcolor}"></i>
+                          </button>
+                        </div>
+                        
+                      </div>
+                      <small *ngIf="!changepassprofileForm.controls['oldpassword'].valid && changepassprofileForm.controls['oldpassword'].touched"
+                      style="color:red;">Minimum 8 characters, at least 1 letter, 1 numeric and 1 special character</small>
+                      <!-- <div class="form-group">
+                        <label>Current Password</label>
+                        <input class="form-control " type="password" placeholder="Current Password" formControlName="oldpassword">
+                        <small *ngIf="!changepassprofileForm.controls['oldpassword'].valid && changepassprofileForm.controls['oldpassword'].touched"
+                          style="color:red;">Minimum eight characters, at least one letter, one number and one special character</small>
+                      </div> -->
+                      <div class="input-group">
+                          <label>New Password</label>
+                          <input class="form-control " type="{{currenttype}}" placeholder="New Password" formControlName="password">
+                          
+                          <div class="input-group-btn">
+                            <button class="btn btn-default" (click)="togglecurrent()">
+                              <i [ngClass]="eyetypecurrent" [ngStyle]="{'color': currentcolor}"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <small *ngIf="!changepassprofileForm.controls['password'].valid && changepassprofileForm.controls['password'].touched" style="color:red;">Minimum 8 characters, at least 1 letter, 1 numeric and 1 special character</small>
+                      <!-- <div class="form-group">
+                        <label>New Password</label>
+                        <input class="form-control " type="password" placeholder="New Password" formControlName="password">
+                        <small *ngIf="!changepassprofileForm.controls['password'].valid && changepassprofileForm.controls['password'].touched" style="color:red;">Minimum eight characters, at least one letter, one number and one special character</small>
+                      </div> -->
+                      <div class="input-group">
+                          <label>Confirm Password</label>
+                          <input class="form-control " type="{{confirmtype}}" placeholder="Confirm Password" formControlName="confirmpassword">
+                          
+                          <div class="input-group-btn">
+                            <button class="btn btn-default" (click)="toggleconfirm()">
+                              <i [ngClass]="eyetypeconfirm" [ngStyle]="{'color': confirmcolor}"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <small *ngIf="!changepassprofileForm.controls['confirmpassword'].valid && changepassprofileForm.controls['confirmpassword'].touched"
+                            style="color:red;">Minimum 8 characters, at least 1 letter, 1 numeric and 1 special character</small>
+                      <!-- <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input class="form-control " type="password" placeholder="Confirm Password" formControlName="confirmpassword">
+                        <small *ngIf="!changepassprofileForm.controls['confirmpassword'].valid && changepassprofileForm.controls['confirmpassword'].touched"
+                          style="color:red;">Minimum eight characters, at least one letter, one number and one special character</small>
+                      </div> -->
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="submit" class="btn btn-sm btn-primary" [disabled]="!examForm.valid">Submit</button> -->
+          <button type="submit" class="btn btn-sm btn-primary" [disabled]="changepassprofileForm.invalid" (click)="changepass()">Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- overlap holiday -->
+<div id="overlap" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- <form [formGroup]="examForm" (ngSubmit)="onFormSubmit()"> -->
+    <form>
+      Modal content
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" (click)="addofficehourseactiveform();">&times;</button>
+          <h4 class="modal-title">Delete Holiday</h4>
+        </div>
+        <div class="modal-body">
+          <div class="panel panel-default">
+            <!-- <div  class="panel-heading font-bold">
+                          Leave History
+                        </div> -->
+            <div class="panel-body">
+              {{overlapingtext}}
+
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="submit" class="btn btn-sm btn-primary" [disabled]="!examForm.valid">Submit</button> -->
+          <button type="submit" class="btn btn-sm btn-primary" (click)="addofficehours()">Ok</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" (click)=" addofficehourseactiveform();">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Add Exam -->
+<!-- <div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <form [formGroup]="examForm" (ngSubmit)="onFormSubmit()">
+        Modal content
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Add New Exam</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                    <div class="form-group">
+                      <label>Exam Name</label>
+                      <input type="text" class="form-control" placeholder="Enter Exam Name" formControlName="subcatname" maxlength="25">
+                      <small *ngIf="!examForm.controls['subcatname'].valid && examForm.controls['subcatname'].touched" style="color:red;"> Enter Exam count (min 3 & max 25 characters )</small>
+                    </div>
+                    <div class="form-group">
+                      <label>Select Category</label>
+                      <select name="category" class="form-control" formControlName="categoryid" [ngClass]="{
+                        'has-danger': examForm.controls.categoryid.invalid &&    examForm.controls.categoryid.touched, 
+                        'has-success': examForm.controls.categoryid.valid && examForm.controls.categoryid.touched 
+                      }">
+                        <ng-container *ngFor="let getcategories of getcategorydata;">
+                          <option value="{{getcategories._id}}">{{getcategories.name}}</option>
+                        </ng-container>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Select Duration</label>
+                      <select name="category" class="form-control" formControlName="duration" [ngClass]="{
+                        'has-danger': examForm.controls.duration.invalid &&    examForm.controls.duration.touched, 
+                        'has-success': examForm.controls.duration.valid && examForm.controls.duration.touched 
+                      }">
+                        <option value="0.30">30 Minutes</option>
+                        <option value="1.00">1 Hour</option>
+                        <option value="1.30">1 Hour 30 Minutes</option>
+                        <option value="2.00">2 Hours</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>No. Of Questions</label>
+                      <input type="number" class="form-control" placeholder="No. Of Questions" formControlName="size">
+                      <small *ngIf="!examForm.controls['size'].valid && examForm.controls['size'].touched" style="color:red;">No. Of Questions should be Number </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-sm btn-primary" [disabled]="!examForm.valid">Submit</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div> -->

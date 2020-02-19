@@ -1,0 +1,23 @@
+.image{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    /* background-image: url("../../../assets/img/user.jpg"); */
+    background-position: center center;
+    background-size: cover;
+  }
+  .modal-body .image{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    /* background-image: url("../../../assets/img/user.jpg"); */
+    background-position: center center;
+    background-size: cover;
+  }
+  .col-sm-12.top {
+    margin-bottom: 33px;
+    margin-top: 10px;
+}
+.input-group-btn .btn{
+  margin-top: 25px !important;
+}

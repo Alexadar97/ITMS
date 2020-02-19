@@ -1,0 +1,250 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="row">
+    <div class="col-sm-6 col-xs-12">
+      <h1 class="m-n font-thin h3">Leave History</h1>
+    </div>
+    <div class="col-sm-6 text-right hidden-xs">
+      <div class="inline m-r text-left">
+        <div class="m-b-xs">
+          <button class="btn btn-primary btn-addon btn-sm" data-toggle="modal" data-target="#Applyleavemodal" (click)="leaveapplyreactiveform()">
+            <i class="fa fa-plus"></i>Apply Leave</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="wrapper-md">
+  <div class="panel panel-default">
+    <!-- <div  class="panel-heading font-bold">
+          Leave History
+        </div> -->
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-sm-4 hidden-xs">
+          <div class="form-group">
+            <label>Search</label>
+            <input class="form-control " id="leavesearch" type="text" placeholder="search Reason" (keyup)="searchtable('leavesearch', 'leavetable')">
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group" *ngIf="isrm != 'true'">
+            <label>Status</label>
+            <select class="form-control" (change)="getleavestatus($event.target.value)">
+              <option value="approved">Approved</option>
+              <option value="pending">Pending</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+      <table class="table table-striped m-b-none" id="leavetable">
+        <thead>
+          <tr>
+            <th data-breakpoints="xs">Leave Date</th>
+            <th>Reason</th>
+            <th>Status</th>
+            <!-- <th data-breakpoints="xs">Category</th>
+            <th data-breakpoints="xs sm md" data-title="DOB">No. of questions</th> -->
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr *ngFor="let leavedata of leavedata | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, id:'one'}">
+            <td>{{leavedata.leavedate | date: 'dd/MM/yyyy'}}</td>
+            <td>{{leavedata.reason}}</td>
+            <td>{{leavedata.status}}</td>
+            <td *ngIf="leavedata.status == 'pending'"><button class="btn btn-primary" type="submit" (click)="setidforleaveaction(leavedata._id);" data-toggle="modal" data-target="#cancelleave">Cancel</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls (pageChange)="currentPage = $event" id="one"></pagination-controls>
+      <footer class="panel-footer">
+        <div class="row">
+          <div class="col-sm-4 hidden-xs">
+
+          </div>
+          <div class="col-sm-4 text-center">
+
+          </div>
+          <!-- <div class="col-sm-4 text-right text-center-xs">
+            <ul class="pagination pagination-sm m-t-none m-b-none">
+              <li>
+                <a href="">
+                  <i class="fa fa-chevron-left"></i>
+                </a>
+              </li>
+              <li>
+                <a href="">1</a>
+              </li>
+              <li>
+                <a href="">2</a>
+              </li>
+              <li>
+                <a href="">3</a>
+              </li>
+              <li>
+                <a href="">4</a>
+              </li>
+              <li>
+                <a href="">5</a>
+              </li>
+              <li>
+                <a href="">
+                  <i class="fa fa-chevron-right"></i>
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>
+<!-- apply leave -->
+<div id="Applyleavemodal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- <form [formGroup]="examForm" (ngSubmit)="onFormSubmit()"> -->
+    <form [formGroup]="applyleaveForm">
+      Modal content
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" >&times;</button>
+          <h4 class="modal-title">Apply Leave</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <div class="form-group">
+                    <label>From Date</label>
+
+                    <input type='text' class="form-control" id='fromdate' placeholder="From Date" formControlName="from" />
+
+                    <!-- <small *ngIf="!examForm.controls['subcatname'].valid && examForm.controls['subcatname'].touched" style="color:red;"> Enter Exam count (min 3 & max 25 characters )</small> -->
+                  </div>
+                  <div class="form-group">
+                    <label>To Date</label>
+
+                    <input type='text' class="form-control" id='todate' placeholder="To Date" formControlName="to" />
+
+                    <!-- <small *ngIf="!examForm.controls['subcatname'].valid && examForm.controls['subcatname'].touched" style="color:red;"> Enter Exam count (min 3 & max 25 characters )</small> -->
+                  </div>
+
+
+                  <div class="form-group">
+                    <label>Reason</label>
+                    <input type="text" class="form-control" placeholder="Reason" formControlName="reason">
+                    <!-- <small *ngIf="!examForm.controls['size'].valid && examForm.controls['size'].touched" style="color:red;">No. Of Questions should be Number </small> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <!-- {{applyleaveForm.value | json}} -->
+          <!-- <button type="submit" class="btn btn-sm btn-primary" [disabled]="!examForm.valid">Submit</button> -->
+          <button type="submit" class="btn btn-sm btn-primary" (click)="leaveapply()" [disabled]="applyleaveForm.invalid">Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- cancel Leave -->
+<div id="cancelleave" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- <form [formGroup]="examForm" (ngSubmit)="onFormSubmit()"> -->
+    <form>
+      Modal content
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Approve Leave </h4>
+        </div>
+        <div class="modal-body">
+          <div class="panel panel-default">
+            <!-- <div  class="panel-heading font-bold">
+                            Leave History
+                          </div> -->
+            <div class="panel-body">
+              <p>Are you sure, you want to cancel this Leave?</p>
+
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="submit" class="btn btn-sm btn-primary" [disabled]="!examForm.valid">Submit</button> -->
+          <button type="submit" class="btn btn-sm btn-primary" (click)="cancelleave()">Ok</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Add Exam -->
+<!-- <div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <form [formGroup]="examForm" (ngSubmit)="onFormSubmit()">
+      Modal content
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" >&times;</button>
+          <h4 class="modal-title">Add New Exam</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <div class="form-group">
+                    <label>Exam Name</label>
+                    <input type="text" class="form-control" placeholder="Enter Exam Name" formControlName="subcatname" maxlength="25">
+                    <small *ngIf="!examForm.controls['subcatname'].valid && examForm.controls['subcatname'].touched" style="color:red;"> Enter Exam count (min 3 & max 25 characters )</small>
+                  </div>
+                  <div class="form-group">
+                    <label>Select Category</label>
+                    <select name="category" class="form-control" formControlName="categoryid" [ngClass]="{
+                      'has-danger': examForm.controls.categoryid.invalid &&    examForm.controls.categoryid.touched, 
+                      'has-success': examForm.controls.categoryid.valid && examForm.controls.categoryid.touched 
+                    }">
+                      <ng-container *ngFor="let getcategories of getcategorydata;">
+                        <option value="{{getcategories._id}}">{{getcategories.name}}</option>
+                      </ng-container>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Select Duration</label>
+                    <select name="category" class="form-control" formControlName="duration" [ngClass]="{
+                      'has-danger': examForm.controls.duration.invalid &&    examForm.controls.duration.touched, 
+                      'has-success': examForm.controls.duration.valid && examForm.controls.duration.touched 
+                    }">
+                      <option value="0.30">30 Minutes</option>
+                      <option value="1.00">1 Hour</option>
+                      <option value="1.30">1 Hour 30 Minutes</option>
+                      <option value="2.00">2 Hours</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>No. Of Questions</label>
+                    <input type="number" class="form-control" placeholder="No. Of Questions" formControlName="size">
+                    <small *ngIf="!examForm.controls['size'].valid && examForm.controls['size'].touched" style="color:red;">No. Of Questions should be Number </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-sm btn-primary" [disabled]="!examForm.valid">Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" (click)="onFormReset();">Close</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div> -->

@@ -1,0 +1,138 @@
+<!-- aside -->
+<aside id="aside" class="app-aside hidden-xs bg-dark">
+  <div class="aside-wrap">
+    <div class="navi-wrap">
+
+      <!-- nav -->
+      <nav ui-nav class="navi clearfix">
+        <ul class="nav">
+          <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+            <!-- <span>Navigation</span> -->
+          </li>
+          <ng-container *ngIf="isadmin != 'true'">
+            <li>
+              <a routerLink="home">
+
+                <i class="glyphicon glyphicon-time icon "></i>
+                <span class="font-bold">Check in/out</span>
+              </a>
+            </li>
+            <li>
+              <a routerLink="leave">
+                <i class="glyphicon glyphicon-send icon "></i>
+                <span class="font-bold">Leave Apply</span>
+              </a>
+            </li>
+            <li *ngIf="isrm == 'true' || isrm == 'NA'">
+              <a routerLink="approve">
+                <i class="glyphicon glyphicon-ok icon "></i>
+                <span class="font-bold">Approval Actions</span>
+              </a>
+            </li>
+            <li *ngIf="isrm == 'true' || isrm == 'NA' ">
+              <a routerLink="work">
+                <i class="glyphicon glyphicon-file icon "></i>
+                <span class="font-bold">Work Log</span>
+              </a>
+            </li>
+            <li>
+              <a routerLink="mywork">
+                <i class="glyphicon glyphicon-file icon"></i>
+                <span class="font-bold">My Work Log</span>
+              </a>
+            </li>
+            <li>
+              <a routerLink="calender">
+                <i class="glyphicon glyphicon-calendar icon "></i>
+                <span class="font-bold">Calender</span>
+              </a>
+            </li>
+            <li>
+              <a routerLink="profile">
+                <i class="glyphicon glyphicon-user icon "></i>
+                <span class="font-bold">Profile</span>
+              </a>
+            </li>
+          </ng-container>
+          <ng-container *ngIf="isadmin == 'true'">
+            <li>
+              <a routerLink="employee">
+                <i class="glyphicon glyphicon-user icon"></i>
+                <span class="font-bold">Employee</span>
+              </a>
+            </li>
+            <li>
+              <a routerLink="view">
+                <i class="glyphicon glyphicon-eye-open icon"></i>
+                <span class="font-bold">View</span>
+              </a>
+            </li>
+            <li>
+              <a routerLink="config">
+                <i class="glyphicon glyphicon-cog	icon"></i>
+                <span class="font-bold">Configuration</span>
+              </a>
+            </li>
+          </ng-container>
+          <!-- <li>
+            <a href="" class="auto">
+              <span class="pull-right text-muted">
+                <i class="fa fa-fw fa-angle-right text"></i>
+                <i class="fa fa-fw fa-angle-down text-active"></i>
+              </span>
+              <i class="glyphicon glyphicon-list"></i>
+              <span>Exam</span>
+            </a>
+            <ul class="nav nav-sub dk">
+              <li class="nav-sub-header">
+                <a href="javascript:void(0)">
+                  <span>Exam</span>
+                </a>
+              </li>
+              <li>
+                <a routerLink="exam">
+                  <span>View Exam</span>
+                </a>
+              </li>
+              <li>
+                <a routerLink="category">
+                  <span>Category</span>
+                </a>
+              </li>
+            </ul>
+          </li> -->
+          <!-- <li>
+            <a href="" class="auto">
+              <span class="pull-right text-muted">
+                <i class="fa fa-fw fa-angle-right text"></i>
+                <i class="fa fa-fw fa-angle-down text-active"></i>
+              </span>
+              <i class="glyphicon glyphicon-list"></i>
+              <span>Question Upload</span>
+            </a>
+            <ul class="nav nav-sub dk">
+              <li class="nav-sub-header">
+                <a href="javascript:void(0)">
+                  <span>Question Upload</span>
+                </a>
+              </li>
+              <li>
+                <a routerLink="import">
+                  <span>Import File</span>
+                </a>
+              </li>
+              <li>
+                <a routerLink="manual">
+                  <span>Manual</span>
+                </a>
+              </li>
+            </ul>
+          </li> -->
+          <li class="line dk"></li>
+        </ul>
+      </nav>
+      <!-- nav -->
+    </div>
+  </div>
+</aside>
+<!-- / aside -->

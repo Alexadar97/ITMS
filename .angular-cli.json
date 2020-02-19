@@ -19,9 +19,32 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "styles.css",
+        "./assets/libs/assets/animate.css/animate.css",
+        "./assets/libs/assets/font-awesome/css/font-awesome.min.css",
+        "./assets/libs/assets/simple-line-icons/css/simple-line-icons.css",
+        "./assets/libs/jquery/bootstrap/dist/css/bootstrap.css",
+        "../node_modules/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css",
+        "./assets/css/app.min.css",
+        "./assets/css/calender.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "./assets/js/app.min.js",
+        "./assets/js/jquery.easypiechart.fill.js",
+        "./assets/js/jquery.sparkline.retina.js",
+        "./assets/js/jquery.flot.js",
+        "./assets/js/jquery.flot.pie.js",
+        "./assets/js/jquery.flot.resize.js",
+        "./assets/js/jquery.flot.tooltip.min.js",
+        "./assets/js/jquery.flot.orderBars.js",
+        "./assets/js/jquery.flot.spline.min.js",
+        "./assets/js/moment.js",
+        "./assets/js/underscore.js",
+        "./assets/js/calender.js",
+        "./assets/js/site.js",
+        "../node_modules/bootstrap-notify/bootstrap-notify.js",
+        "../node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

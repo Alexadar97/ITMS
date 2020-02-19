@@ -1,0 +1,277 @@
+<div class="app-content-body ">
+  <div class="hbox hbox-auto-xs hbox-auto-sm" ng-init="
+    app.settings.asideFolded = false; 
+    app.settings.asideDock = false;
+  ">
+    <!-- main -->
+    <div class="col">
+      <!-- main header -->
+      <div class="bg-light lter b-b wrapper-md">
+        <div class="row">
+          <div class="col-sm-6 col-xs-12">
+            <h1 class="m-n font-thin h3 text-black">Check in/out</h1>
+            <!-- <small class="text-muted">Welcome to iTechQuest application</small> -->
+          </div>
+        </div>
+      </div>
+      <!-- / main header -->
+      <div class="wrapper-md" ng-controller="FlotChartDemoCtrl">
+        <!-- stats -->
+        <div class="row">
+
+          <div class="col-md-4">
+            <div class="panel panel-default">
+              <div>
+                <div class="panel-heading font-bold">
+                  Check In
+                </div>
+                <div class="panel-body">
+                  <img *ngIf="checkinoutdata?.checkin == true" id="imgcheckin" src="assets/check-in/c-in.png" class="img-responsive" alt="Check in"
+                    style="margin: 0em 3em; filter: grayscale(100%);">
+                  <img *ngIf="checkinoutdata?.checkin != true" id="imgcheckin" src="assets/check-in/c-in.png" (click)="checkinemp()" class="img-responsive"
+                    alt="Check in" style="margin: 0em 3em; filter: grayscale(0%);cursor: pointer;">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="panel panel-default">
+              <div>
+                <div class="panel-heading font-bold">
+                  Pending Hours Day
+                </div>
+                <div class="panel-body text-center">
+                  <div class="col-md-6 remainingtime">
+                    <small>Per day</small>
+                    <p class="checkintime" *ngIf="remainingtime?.remainingtime">{{remainingtime?.remainingtime}}</p>
+                    <p class="checkintime" *ngIf="!remainingtime?.remainingtime || remainingtime?.remainingtime < 0">0:00</p>
+                  </div>
+                  <div class="col-md-6">
+                    <small>Break</small>
+                    <p class="checkintime" *ngIf="remainingtime?.remainingbreaktime">{{remainingtime?.remainingbreaktime}}</p>
+                    <p class="checkintime" *ngIf="!remainingtime?.remainingbreaktime">0:00</p>
+                  </div>
+
+                </div>
+                <div class="panel-heading font-bold">
+                  Your Working Hour Starts Now
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="panel panel-default">
+              <div>
+                <div class="panel-heading font-bold">
+                  Check Out
+                </div>
+                <div class="panel-body">
+                  <img id="imgcheckin" *ngIf="checkinoutdata?.checkin != true || breakinoutdata == true || (checkinoutdata?.checkout == true && checkinoutdata?.checkin == true)"
+                    src="assets/check-in/c-out.png" class="img-responsive" alt="Check in" style="margin: 0em 3em; filter: grayscale(100%);">
+                  <!-- <img id="imgcheckin" *ngIf="breakinoutdata == true" src="assets/check-in/c-out.png" class="img-responsive" alt="Check in"
+                    style="margin: 0em 3em; filter: grayscale(100%);"> -->
+                  <img id="imgcheckin" *ngIf="breakinoutdata != true && checkinoutdata?.checkin == true && checkinoutdata?.checkout != true "
+                    src="assets/check-in/c-out.png" class="img-responsive" alt="Check in" style="margin: 0em 3em; filter: grayscale(0%);cursor: pointer;"
+                    data-toggle="modal" data-target="#checkout">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="panel panel-default">
+              <div>
+                <div class="panel-heading font-bold">
+                  Step Out
+                </div>
+                <div class="panel-body">
+                  <img *ngIf="checkinoutdata?.checkin != true || breakinoutdata == true ||  (checkinoutdata?.checkout == true && checkinoutdata?.checkin == true)" id="imgbreakout"
+                    src="assets/check-in/timestart.png" class="img-responsive" alt="Check in" style="margin: 0em 3em; filter: grayscale(100%);">
+                  <img *ngIf="breakinoutdata != true && checkinoutdata?.checkout != true && checkinoutdata?.checkin == true" id="imgbreakout"
+                    src="assets/check-in/timestart.png" class="img-responsive" alt="Check in" style="margin: 0em 3em; filter: grayscale(0%);;cursor: pointer;"
+                    (click)="breakoutemp()">
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="panel panel-default">
+              <div>
+                <div class="panel-heading font-bold">
+                  Pending Hours Week
+                </div>
+                <div class="panel-body text-center">
+                  <p>All your earnings for this time
+                    <br> {{remainingtime?.userworkhours}} / {{remainingtime?.weeklyworkhours}}</p>
+                  <div class="progress">
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
+                      [ngStyle]="{'width': percentage +'%'}">
+                    </div>
+                  </div>
+                </div>
+                <div class="panel-heading font-bold">
+                  You can Compensate this Timing in end of each Month/ Week/ Next Day.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="panel panel-default">
+              <div>
+                <div class="panel-heading font-bold">
+                  Step In
+                </div>
+                <div class="panel-body">
+                  <img *ngIf="breakinoutdata != true" id="imgcheckin"
+                    src="assets/check-in/timestop.png" class="img-responsive" alt="Check in" style="margin: 0em 3em; filter: grayscale(100%);">
+                  <img *ngIf="(breakinoutdata == true && checkinoutdata?.checkout != true && checkinoutdata?.checkin == true)" id="imgcheckin"
+                    src="assets/check-in/timestop.png" class="img-responsive" alt="Check in" style="margin: 0em 3em; filter: grayscale(0%);;cursor: pointer;"
+                    (click)="breakinemp()">
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- / stats -->
+      </div>
+    </div>
+    <!-- / main -->
+  </div>
+
+</div>
+
+<!-- check out -->
+<div id="checkout" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- <form [formGroup]="examForm" (ngSubmit)="onFormSubmit()"> -->
+    <form [formGroup]="checkoutForm">
+      Modal content
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Status</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Status</label>
+            <input type="text" class="form-control" placeholder="Status" formControlName="status">
+            <!-- <small *ngIf="!addemployeeForm.controls['mobile'].valid && addemployeeForm.controls['mobile'].touched" style="color:red;">Enter valid Mobile Number </small> -->
+          </div>
+          <div class="form-group">
+            <input data-classbutton="btn btn-default" data-classinput="form-control inline v-middle input-s" data-icon="false" id="filestyle-0"
+              style="position: absolute; clip: rect(0px, 0px, 0px, 0px);" tabindex="-1" type="file" ui-jq="filestyle" (change)="getfile($event)">
+            <div class="bootstrap-filestyle input-group">
+              <input class="form-control " disabled="" type="text" value="{{filename}}">
+              <span class="group-span-filestyle input-group-btn" tabindex="0">
+
+                <label class="btn btn-default " for="filestyle-0">
+                  <span class="glyphicon glyphicon-folder-open"></span>Upload File</label>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <!-- {{checkoutForm.value | json}} -->
+          <!-- <button type="submit" class="btn btn-sm btn-primary" [disabled]="!examForm.valid">Submit</button> -->
+          <button type="submit" class="btn btn-sm btn-primary" [disabled]="!checkoutForm.valid" (click)="checkoutemp()">Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Change Password -->
+<div id="changepass" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- <form [formGroup]="examForm" (ngSubmit)="onFormSubmit()"> -->
+    <form [formGroup]="changepassprofileForm">
+      Modal content
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+          <h4 class="modal-title">Change Password</h4>
+        </div>
+        <div class="modal-body">
+          <div class="panel panel-default">
+            <!-- <div  class="panel-heading font-bold">
+                          Leave History
+                        </div> -->
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="input-group">
+                            <label>Current Password</label>
+                            <input class="form-control " type="{{oldtype}}" placeholder="Current Password" formControlName="oldpassword">
+                           
+    
+                            <div class="input-group-btn">
+                              <button class="btn btn-default" (click)="toggleold()">
+                                <i [ngClass]="eyetypeold" [ngStyle]="{'color': oldcolor}"></i>
+                              </button>
+                            </div>
+                            
+                          </div>
+                          <small *ngIf="!changepassprofileForm.controls['oldpassword'].valid && changepassprofileForm.controls['oldpassword'].touched"
+                          style="color:red;">Minimum 8 characters, at least 1 letter, 1 numeric and 1 special character</small>
+                          <!-- <div class="form-group">
+                            <label>Current Password</label>
+                            <input class="form-control " type="password" placeholder="Current Password" formControlName="oldpassword">
+                            <small *ngIf="!changepassprofileForm.controls['oldpassword'].valid && changepassprofileForm.controls['oldpassword'].touched"
+                              style="color:red;">Minimum eight characters, at least one letter, one number and one special character</small>
+                          </div> -->
+                          <div class="input-group">
+                              <label>New Password</label>
+                              <input class="form-control " type="{{currenttype}}" placeholder="New Password" formControlName="password">
+                              
+                              <div class="input-group-btn">
+                                <button class="btn btn-default" (click)="togglecurrent()">
+                                  <i [ngClass]="eyetypecurrent" [ngStyle]="{'color': currentcolor}"></i>
+                                </button>
+                              </div>
+                            </div>
+                            <small *ngIf="!changepassprofileForm.controls['password'].valid && changepassprofileForm.controls['password'].touched" style="color:red;">Minimum 8 characters, at least 1 letter, 1 numeric and 1 special character</small>
+                          <!-- <div class="form-group">
+                            <label>New Password</label>
+                            <input class="form-control " type="password" placeholder="New Password" formControlName="password">
+                            <small *ngIf="!changepassprofileForm.controls['password'].valid && changepassprofileForm.controls['password'].touched" style="color:red;">Minimum eight characters, at least one letter, one number and one special character</small>
+                          </div> -->
+                          <div class="input-group">
+                              <label>Confirm Password</label>
+                              <input class="form-control " type="{{confirmtype}}" placeholder="Confirm Password" formControlName="confirmpassword">
+                              
+                              <div class="input-group-btn">
+                                <button class="btn btn-default" (click)="toggleconfirm()">
+                                  <i [ngClass]="eyetypeconfirm" [ngStyle]="{'color': confirmcolor}"></i>
+                                </button>
+                              </div>
+                            </div>
+                            <small *ngIf="!changepassprofileForm.controls['confirmpassword'].valid && changepassprofileForm.controls['confirmpassword'].touched"
+                                style="color:red;">Minimum 8 characters, at least 1 letter, 1 numeric and 1 special character</small>
+                          <!-- <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input class="form-control " type="password" placeholder="Confirm Password" formControlName="confirmpassword">
+                            <small *ngIf="!changepassprofileForm.controls['confirmpassword'].valid && changepassprofileForm.controls['confirmpassword'].touched"
+                              style="color:red;">Minimum eight characters, at least one letter, one number and one special character</small>
+                          </div> -->
+    
+                        </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="submit" class="btn btn-sm btn-primary" [disabled]="!examForm.valid">Submit</button> -->
+          <button type="submit" class="btn btn-sm btn-primary" [disabled]="!changepassprofileForm.valid" (click)="changepass()">Submit</button>
+          <!-- <button type="button" class="btn btn-default" data-dismiss="modal" >Close</button> -->
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

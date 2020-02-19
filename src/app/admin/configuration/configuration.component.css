@@ -1,0 +1,10 @@
+.searchbtn{
+    margin-top: 25px;
+}
+.progress{
+    margin-bottom: 10px;
+    height:10px;
+}
+.input-group-btn .btn{
+    margin-top: 25px !important;
+}

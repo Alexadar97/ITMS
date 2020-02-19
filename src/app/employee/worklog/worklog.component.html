@@ -1,0 +1,178 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="row">
+    <div class="col-sm-6 col-xs-12">
+      <h1 class="m-n font-thin h3">Work Log</h1>
+    </div>
+    <div class="col-sm-6 text-right hidden-xs">
+
+    </div>
+  </div>
+</div>
+<div class="wrapper-md">
+  <div class="col-sm-12">
+    <div class="nav-tabs-alt">
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+          <a data-target="#tab-1" role="tab" data-toggle="tab">
+            Daily
+          </a>
+        </li>
+        <li>
+          <a data-target="#tab-2" role="tab" data-toggle="tab">
+            Monthly
+          </a>
+        </li>
+
+      </ul>
+    </div>
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="tab-1">
+        <form>
+          <div class="wrapper-md">
+
+            <div class="panel panel-default">
+              <!-- <div  class="panel-heading font-bold">
+                              Leave History
+                            </div> -->
+
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label>From Date</label>
+
+                      <input type='text' class="form-control" id='fromdate' placeholder="From Date" />
+
+                      <!-- <small *ngIf="!examForm.controls['subcatname'].valid && examForm.controls['subcatname'].touched" style="color:red;"> Enter Exam count (min 3 & max 25 characters )</small> -->
+                    </div>
+
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label>To Date</label>
+
+                      <input type='text' class="form-control" id='todate' placeholder="To Date" />
+
+                      <!-- <small *ngIf="!examForm.controls['subcatname'].valid && examForm.controls['subcatname'].touched" style="color:red;"> Enter Exam count (min 3 & max 25 characters )</small> -->
+                    </div>
+
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+
+                      <button class="btn btn-primary searchbtn" type="button" (click)="getdailydata('search')">Search</button>
+                    </div>
+                  </div>
+                </div>
+                <table class="table table-striped m-b-none">
+                  <thead>
+                    <tr>
+                      <th data-breakpoints="xs">Name</th>
+                      <th>Date</th>
+                      <th>Attendance Time</th>
+                      <th>Worked Hours</th>
+                      <th>Pending Hours</th>
+                      <th>Break Hours</th>
+                      <th>Status</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <tr *ngFor="let dailydata of dailydata| paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, id:'one'};let index = index;">
+                      <td>{{dailydata?.name}}</td>
+                      <td>{{dailydata?.date | date: 'dd/MM/yyyy'}}</td>
+                      <td>
+                        <p>Check-in: {{dailydata?.checkin}}</p>
+                        <div class="progress">
+                          <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
+                            [ngStyle]="{'width': dailydata.percentage+'%'}">
+                          </div>
+                        </div>
+                        <p class="pull-right">Check-out: {{dailydata?.checkout}}</p>
+                      </td>
+                      <td>{{dailydata?.worktime}}</td>
+                      <td>{{dailydata?.pendinghours}}</td>
+                      <td>{{dailydata?.breaktime}}</td>
+                      <td>{{dailydata?.status}}</td>
+                      <td *ngIf="dailydata.filename">
+                          <a href="{{dailydata?.filelink}}" target="_blank">{{dailydata?.filename}}</a>
+                        </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+                <pagination-controls (pageChange)="currentPage = $event" id="one"></pagination-controls>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div role="tabpanel" class="tab-pane tab-2" id="tab-2">
+        <form>
+          <div class="wrapper-md">
+            <div class="panel panel-default">
+              <!-- <div  class="panel-heading font-bold">
+                                  Leave History
+                                </div> -->
+
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label>Month</label>
+                      <!-- <input class="form-control " type="text" placeholder="Month"> -->
+                      <input type='text' class="form-control" id='monthlysearch' placeholder="Search Month" />
+
+                    </div>
+                  </div>
+                  <!-- <div class="col-sm-4">
+                              <div class="form-group">
+                                  <label>End Date</label>
+                                  <input class="form-control " type="text" placeholder="End Date">
+                                </div>
+                          </div> -->
+                  <div class="col-sm-4">
+                    <div class="form-group">
+
+                      <button class="btn btn-primary searchbtn" type="button" (click)="getmonthlydata('search')">Search</button>
+                    </div>
+                  </div>
+                </div>
+
+
+                <table class="table table-striped m-b-none">
+                  <thead>
+                    <tr>
+                      <th data-breakpoints="xs">Name</th>
+                      <th>Month</th>
+                      <th>Year</th>
+                      <th>Total Working Hours / month</th>
+                      <th>Break Hours</th>
+                      <th>Leave Taken</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <tr *ngFor="let monthlydata of monthlydata| paginate: { itemsPerPage: itemsPerPagetwo, currentPage: currentPagetwo, id:'two'};let index = index;">
+                      <td>{{monthlydata.name}}</td>
+                      <td>{{monthlydata.month}}</td>
+                      <td>{{monthlydata.year}}</td>
+                      <td>{{monthlydata.userworkhours}} / {{monthlydata.totalworkinghours}}</td>
+                      <td>{{monthlydata.breaktime}}</td>
+                      <td>{{monthlydata.empmonthlyoff}}</td>
+                    </tr>
+
+                  </tbody>
+                </table>
+                <pagination-controls (pageChange)="currentPagetwo = $event" id="two"></pagination-controls>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>

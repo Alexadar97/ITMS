@@ -1,0 +1,299 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="row">
+    <div class="col-sm-6 col-xs-12">
+      <h1 class="m-n font-thin h3">Approval Actions</h1>
+    </div>
+    <div class="col-sm-6 text-right hidden-xs">
+
+    </div>
+  </div>
+</div>
+<div class="wrapper-md">
+  <div class="col-sm-12">
+    <div class="nav-tabs-alt">
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+          <a data-target="#tab-1" role="tab" data-toggle="tab">
+            Request
+          </a>
+        </li>
+        <li>
+          <a data-target="#tab-2" role="tab" data-toggle="tab">
+            Approved
+          </a>
+        </li>
+        <li>
+          <a data-target="#tab-3" role="tab" data-toggle="tab">
+            Rejected
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="tab-1">
+        <form>
+          <div class="wrapper-md">
+
+            <div class="panel panel-default">
+              <!-- <div  class="panel-heading font-bold">
+                          Leave History
+                        </div> -->
+
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-sm-4 hidden-xs">
+                    <div class="form-group">
+                      <label>Search</label>
+                      <input class="form-control " id="searchpending" type="text" placeholder="search Name" (keyup)="searchtable('searchpending', 'tablepending')">
+                    </div>
+                  </div>
+                  <div class="col-sm-4 text-center">
+
+                  </div>
+
+                </div>
+                <table class="table table-striped m-b-none" id="tablepending">
+                  <thead>
+                    <tr>
+                      <th data-breakpoints="xs">Name</th>
+                      <th>Designation</th>
+                      <th>Reason</th>
+                      <th>Leave Date</th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <tr *ngFor="let leavestatusdatapending of leavestatusdatapending | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, id:'one'}">
+                      <td>{{leavestatusdatapending?.name}}</td>
+                      <td>{{leavestatusdatapending?.designation}}</td>
+                      <td>{{leavestatusdatapending?.reason}}</td>
+                      <td>{{leavestatusdatapending?.leavedate | date: 'dd/MM/yyyy'}}</td>
+                      <td>
+                        <label class="checkbox-inline i-checks">
+                          <input type="checkbox" class="lwpclass" value="{{leavestatusdatapending._id}}" (change)="getlwp()">
+                          <i></i>&nbsp;LWP
+                        </label>
+                      </td>
+                      <td>
+                          <label class="checkbox-inline i-checks" *ngIf="leavestatusdatapending.sundaylwp">
+                            <input checked="true" type="checkbox" class="leavelwpclass" value="{{leavestatusdatapending._id}}" (change)="getleavelwp()">
+                            <i></i>&nbsp;Sunday LWP
+                          </label>
+                        </td>
+                      <td>
+                        <button class="btn btn-primary" type="submit" (click)="setidforleaveaction(leavestatusdatapending._id);" data-toggle="modal"
+                          data-target="#approveleave">Approve</button>
+                      </td>
+                      <td>
+                        <button class="btn btn-primary" type="submit" (click)="setidforleaveaction(leavestatusdatapending._id);" data-toggle="modal"
+                          data-target="#rejectleave">Reject</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <pagination-controls (pageChange)="currentPage = $event" id="one"></pagination-controls>
+                <footer class="panel-footer">
+                  <div class="row">
+                    <div class="col-sm-4 hidden-xs">
+
+                    </div>
+                    <div class="col-sm-4 text-center">
+
+                    </div>
+
+                  </div>
+                </footer>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div role="tabpanel" class="tab-pane tab-2" id="tab-2">
+        <form>
+          <div class="wrapper-md">
+            <div class="panel panel-default">
+              <!-- <div  class="panel-heading font-bold">
+                              Leave History
+                            </div> -->
+
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-sm-4 hidden-xs">
+                    <div class="form-group">
+                      <label>Search</label>
+                      <input class="form-control " id="searchapproved" type="text" placeholder="search Name" (keyup)="searchtable('searchapproved', 'tableapproved')">
+                    </div>
+                  </div>
+                  <div class="col-sm-4 text-center">
+
+                  </div>
+
+                </div>
+                <table class="table table-striped m-b-none" id="tableapproved">
+                  <thead>
+                    <tr>
+                      <th data-breakpoints="xs">Name</th>
+                      <th>Designation</th>
+                      <th>Reason</th>
+                      <th>Leave Date</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <tr *ngFor="let leavestatusdataapproved of leavestatusdataapproved | paginate: { itemsPerPage: itemsPerPagetwo, currentPage: currentPagetwo, id:'two'}">
+                      <td>{{leavestatusdataapproved?.name}}</td>
+                      <td>{{leavestatusdataapproved?.designation}}</td>
+                      <td>{{leavestatusdataapproved?.reason}}</td>
+                      <td>{{leavestatusdataapproved?.leavedate | date: 'dd/MM/yyyy'}}</td>
+                    </tr>
+
+                  </tbody>
+                </table>
+                <pagination-controls (pageChange)="currentPagetwo = $event" id="two"></pagination-controls>
+                <footer class="panel-footer">
+                  <div class="row">
+                    <div class="col-sm-4 hidden-xs">
+
+                    </div>
+                    <div class="col-sm-4 text-center">
+
+                    </div>
+
+                  </div>
+                </footer>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div role="tabpanel" class="tab-pane tab-2" id="tab-3">
+        <form>
+          <div class="wrapper-md">
+            <div class="panel panel-default">
+              <!-- <div  class="panel-heading font-bold">
+                                Leave History
+                              </div> -->
+
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-sm-4 hidden-xs">
+                    <div class="form-group">
+                      <label>Search</label>
+                      <input class="form-control " id="searchrejected" type="text" placeholder="search Name" (keyup)="searchtable('searchrejected', 'tablerejected')">
+                    </div>
+                  </div>
+                  <div class="col-sm-4 text-center">
+
+                  </div>
+
+                </div>
+                <table class="table table-striped m-b-none" id="tablerejected">
+                  <thead>
+                    <tr>
+                      <th data-breakpoints="xs">Name</th>
+                      <th>Designation</th>
+                      <th>Reason</th>
+                      <th>Leave Date</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <tr *ngFor="let leavestatusdatarejected of leavestatusdatarejected | paginate: { itemsPerPage: itemsPerPagethree, currentPage: currentPagethree, id:'three'}">
+                      <td>{{leavestatusdatarejected?.name}}</td>
+                      <td>{{leavestatusdatarejected?.designation}}</td>
+                      <td>{{leavestatusdatarejected?.reason}}</td>
+                      <td>{{leavestatusdatarejected?.leavedate | date: 'dd/MM/yyyy'}}</td>
+                    </tr>
+
+                  </tbody>
+                </table>
+                <pagination-controls (pageChange)="currentPagethree = $event" id="three"></pagination-controls>
+                <footer class="panel-footer">
+                  <div class="row">
+                    <div class="col-sm-4 hidden-xs">
+
+                    </div>
+                    <div class="col-sm-4 text-center">
+
+                    </div>
+
+                  </div>
+                </footer>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- approve Leave -->
+<div id="approveleave" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- <form [formGroup]="examForm" (ngSubmit)="onFormSubmit()"> -->
+    <form>
+      Modal content
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Approve Leave </h4>
+        </div>
+        <div class="modal-body">
+          <div class="panel panel-default">
+            <!-- <div  class="panel-heading font-bold">
+                            Leave History
+                          </div> -->
+            <div class="panel-body">
+              <p>Are you sure, you want to approve this Leave?</p>
+
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="submit" class="btn btn-sm btn-primary" [disabled]="!examForm.valid">Submit</button> -->
+          <button type="submit" class="btn btn-sm btn-primary" (click)="updateLeave()">Ok</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- approve Leave -->
+<div id="rejectleave" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- <form [formGroup]="examForm" (ngSubmit)="onFormSubmit()"> -->
+    <form>
+      Modal content
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Approve Leave </h4>
+        </div>
+        <div class="modal-body">
+          <div class="panel panel-default">
+            <!-- <div  class="panel-heading font-bold">
+                            Leave History
+                          </div> -->
+            <div class="panel-body">
+              <p>Are you sure, you want to reject this Leave?</p>
+
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="submit" class="btn btn-sm btn-primary" [disabled]="!examForm.valid">Submit</button> -->
+          <button type="submit" class="btn btn-sm btn-primary" (click)="rejectleave()">Ok</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
